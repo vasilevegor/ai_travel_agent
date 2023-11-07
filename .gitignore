@@ -1,3 +1,4 @@
 private/
 venv/
 .env
+notebooks/.ipynb_checkpoints/
