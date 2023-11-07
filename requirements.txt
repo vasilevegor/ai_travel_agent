@@ -1,0 +1,8 @@
+jupyter
+fastapi
+pandas
+dask[dataframe]
+python-decouple
+sqlalchemy
+uvicorn
+jinja2
