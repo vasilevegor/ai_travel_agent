@@ -6,3 +6,4 @@ python-decouple
 sqlalchemy
 uvicorn
 jinja2
+requests
