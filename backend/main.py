@@ -39,3 +39,10 @@ def read_flight_prices(flight_price: int, db_session: SessionLocal = Depends(get
     if db_flight_value is None:
         raise HTTPException(status_code=404, detail="Flight price not found")
     return db_flight_value
+
+
+@app.post('/predict')
+def write_to_predict():
+    return {
+        "prediction": "Hello World"
+    }

@@ -1,16 +1,21 @@
 "use client"; //make for frontend
 
-import useSWR from 'swr'
+import {notFound} from 'next/navigation'
+import Error from 'next/error'
 
-const fetcher = (...args) => fetch(...args).then(res => res.json())
+import performAPIGetRequest from '@/app/utils/apiClient'
+
+
 export default function FlightDetailPage ({params}) {
     const {id} = params
-
-    const url = `http://127.0.0.1:8000/flights/${id}`
-    const { data, error, isLoading } = useSWR(url, fetcher)
-
-    if (error) return <div>failed to load</div>
+    const path = `/flights/${id}`
+    const { data, error, isLoading } = performAPIGetRequest(path)
+    if (error) {
+        if (error.statusCode === 404) {
+            notFound() 
+        }
+        return <Error statusCode={error.statusCode} />
+    }
     if (isLoading) return <div>loading...</div>
-
     return <div>{JSON.stringify(data)}</div>
 }
