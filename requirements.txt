@@ -7,3 +7,4 @@ sqlalchemy
 uvicorn
 jinja2
 requests
+airportsdata

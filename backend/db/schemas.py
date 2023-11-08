@@ -1,5 +1,14 @@
 from datetime import date
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
+
+class AirportSchema(BaseModel):
+    name: str = Field(alias="label")
+    iata: str = Field(alias="value")
+
+    class Config:
+        populate_by_name = True
+        from_attributes = True
 
 
 class FlightPriceOverviewSchema(BaseModel): # Pydantic
