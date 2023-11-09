@@ -45,8 +45,8 @@ class PredictSchema(BaseModel): # Pydantic
     startingAirport: str
     destinationAirport: str
     flightDate: date = "2022-04-21"
-    isBasicEconomy: bool = False
-    isRefundable: bool = False
+    isBasicEconomy: bool = True
+    isRefundable: bool = True
     isNonStop: bool = True
 
     # class Config:

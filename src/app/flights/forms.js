@@ -4,6 +4,7 @@ import {useState} from 'react'
 import {API_BASE_URL} from '@/app/utils/apiClient'
 
 import AirportDropdown from "@/app/airports/dropdown"
+import PredictionResultTable from './tables';
 
 export default function FlightPredictForm(props) {
     const [startAirportVal, setStartAirportVal] = useState("jfk")
@@ -31,70 +32,74 @@ export default function FlightPredictForm(props) {
                 body: jsonData
             })
             const data = await response.json()
+            console.log(data)
             setPredictData(prev=>({
                 ...prev,
                 loading: false,
-                predictions: data && data.predictions ? [...data.predictions] : []
+                predictions: data && data.prediction ? [...data.prediction] : []
             }))
         }
 
     }
-    
+
     const btnClassName = predictData.loading ? "btn-disabled" : "btn-primary"
-    const btnLabel = predictData.loading ? "Loading..." : "Help me"
+    const btnLabel = predictData.loading ? "Loading...": "Help me"
     return <div><form className="space-y-2 md:space-y-3" onSubmit={handleSubmit}>
         <div className="grid md:grid-cols-2 md:gap-3">
             <div>
                 <label htmlFor='startingAirport'>
-                        Starting Airport
-                        </label>
-                    <AirportDropdown 
-                        name='startingAirport' 
-                        value={startAirportVal}
-                        onChange={e => setStartAirportVal(e.target.value)} />
-            </div>
+                        
+                Starting Airport
+                    </label>
+                <AirportDropdown 
+                    name='startingAirport' 
+                    value={startAirportVal}
+                    onChange={e => setStartAirportVal(e.target.value)} />
+                    </div>
             <div>
                 <label htmlFor='destinationAirport'>
-                        Destination Airport
-                        </label>
-                    <AirportDropdown 
-                        name='destinationAirport'
-                        value={endAirportVal} 
-                        onChange={e => setEndAirportVal(e.target.value)} 
-                        filterval={startAirportVal}  />            
-            </div>            
+                        
+                    Destination Airport
+                    </label>
+                <AirportDropdown 
+                    name='destinationAirport'
+                    value={endAirportVal} 
+                    onChange={e => setEndAirportVal(e.target.value)} 
+                    filterval={startAirportVal}  />
+                        </div>
         </div>
-
 
         <div className="grid md:grid-cols-6 md:gap-3">
             <div>
-                <input type='checkbox' name='isNonStop' id='isNonStop' />
-                    <label htmlFor='isNonStop'>
-                        Non stop flight?
-                    </label>
-            </div>
-            <div>
-                <input type='checkbox' name='isBasicEconomy' id='isBasicEconomy'  />
-                    <label htmlFor='isBasicEconomy'>
-                    Basic Economy?
-                    </label>
-            </div>
-            <div>
-                <input type='checkbox' name='isRefundable' id='isRefundable' />
-                    <label htmlFor='isRefundable'>
-                        Refundable?
-                    </label>
-            </div>
-            <div className="md:col-span-3">
-                <button disabled={predictData.loading} className={`${btnClassName} float-right`} type="submit">{btnLabel}</button>  
-            </div>          
+        
+         <input type='checkbox' name='isNonStop' id='isNonStop' />
+            <label htmlFor='isNonStop'>
+                
+                Non stop flight?
+            </label>
         </div>
-
+        <div>
+        <input type='checkbox' name='isBasicEconomy' id='isBasicEconomy'  />
+            <label htmlFor='isBasicEconomy'>
+                
+                Basic Economy?
+            </label>
+        </div>
+        <div>
+            <input type='checkbox' name='isRefundable' id='isRefundable' />
+            <label htmlFor='isRefundable'>
+               
+                Refundable?
+            </label>
+        </div>
+        <div className="md:col-span-3">
+            <button disabled={predictData.loading} className={`${btnClassName} float-right`} type="submit">{btnLabel}</button>
+        </div>
+        </div>
     </form>
-        {(predictData && predictData.predictions && predictData.predictions.length > 0) && predictData.predictions.map((pred, idx)=>{
-            return <div key={idx}>
-                  {JSON.stringify(pred)}
-                </div>
-        })}
+
+    {console.log(predictData, predictData.prediction)}
+    <PredictionResultTable results={predictData && predictData.predictions} />
+        
     </div>
 }

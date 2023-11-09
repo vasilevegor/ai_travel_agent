@@ -16,18 +16,18 @@ def predict_query(session,
                   isRefundable=0, 
                   destinationAirport="JFK",
                   raw_request=False,
-                  **    kwargs,
+                  **kwargs,
                  ):
     sql_query = f"""
-    SELECT m.flightDate, m.segmentsAirlineName, m.isNonStop, m.totalFare, m.totalFare_confidence 
-    FROM mindsdb.flight_price_predictor AS m
+    SELECT m.flightDate as date, m.segmentsAirlineName as airline, m.isNonStop as nonStop, m.isBasicEconomy as basic, m.isRefundable as refundable, m.totalFare as price FROM mindsdb.flight_price_predictor AS m
     JOIN ai_travel_agent.flight_prices AS t
-    WHERE t.flightDate = "{flightDate}"
+    WHERE t.flightDate >= "{flightDate}"
     AND t.startingAirport = "{startingAirport}"
+    AND t.isBasicEconomy = "{isBasicEconomy}"
+    AND t.isRefundable = "{isRefundable}"
     AND t.isNonStop = {isNonStop}
-    AND t.isBasicEconomy = {isBasicEconomy}
-    AND t.isRefundable = {isRefundable}
-    AND t.destinationAirport = "{destinationAirport}";
+    AND t.destinationAirport = "{destinationAirport}"
+    LIMIT 10;
     """
     response = mindsdb_query(session, sql_query)
     response.raise_for_status()
@@ -39,6 +39,7 @@ def predict_query(session,
     if dataset is None or data is None:
         return []
     web_ready_data = [dict(zip(columns, row)) for row in dataset]
+    
     return web_ready_data
 
 

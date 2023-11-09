@@ -17,7 +17,7 @@ FRONTEND_ORIGINS = config("FRONTEND_ORIGINS", cast=lambda x: [s.strip() for s in
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=FRONTEND_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -50,8 +50,9 @@ def read_flight_prices(flight_price: int, db_session: SessionLocal = Depends(get
 
 
 @app.post('/predict')
-def write_to_predict(prediction_request: db_schemas.PredictSchema, ai_session: RequestsSession = Depends(get_mindsdb_session)):
-    request_data = prediction_request.model_dump()
+def write_to_predict(prediction_req: db_schemas.PredictSchema, ai_session: RequestsSession = Depends(get_mindsdb_session)):
+    print(prediction_req)
+    request_data = prediction_req.model_dump()
     print(request_data)
     predictions = predict.predict_query(
         ai_session,

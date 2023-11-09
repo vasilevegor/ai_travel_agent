@@ -1,6 +1,6 @@
 from backend.env import config
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, DeclarativeBase
+from sqlalchemy.orm import sessionmaker
 
 
 DATABASE_URL = config("FLIGHT_PRICES_DATABASE_URL", cast=str, default=None)
