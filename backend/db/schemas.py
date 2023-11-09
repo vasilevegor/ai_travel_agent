@@ -39,3 +39,15 @@ class FlightPriceDetailSchema(BaseModel): # Pydantic
 
     class Config:
         from_attributes = True
+        
+
+class PredictSchema(BaseModel): # Pydantic
+    startingAirport: str
+    destinationAirport: str
+    flightDate: date = "2022-04-21"
+    isBasicEconomy: bool = False
+    isRefundable: bool = False
+    isNonStop: bool = True
+
+    # class Config:
+    #     from_attributes = True

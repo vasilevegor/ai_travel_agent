@@ -50,15 +50,14 @@ def read_flight_prices(flight_price: int, db_session: SessionLocal = Depends(get
 
 
 @app.post('/predict')
-def write_to_predict(ai_session: RequestsSession = Depends(get_mindsdb_session)):
+def write_to_predict(prediction_request: db_schemas.PredictSchema, ai_session: RequestsSession = Depends(get_mindsdb_session)):
+    request_data = prediction_request.model_dump()
+    print(request_data)
     predictions = predict.predict_query(
         ai_session,
-        flightDate="2022-04-21", 
-        startingAirport="LAX", 
-        isNonStop=1, 
-        destinationAirport="JFK",
-        raw_request=False
+        **request_data,
     )
+    print(predictions)
     return {
         "prediction": predictions,
     }
