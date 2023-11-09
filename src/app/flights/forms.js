@@ -1,5 +1,7 @@
 import {API_BASE_URL} from "@/app/utils/apiClient"
 
+import AirportDropdown from "@/app/airports/dropdown"
+
 export default function FlightPredictForm(props) {
 
     const handleSubmit = async (event) => {
@@ -7,6 +9,7 @@ export default function FlightPredictForm(props) {
         const formData = new FormData(event.target)
         const formObj = Object.fromEntries(formData)
         const jsonData = JSON.stringify(formObj)
+        console.log(jsonData)
         const endpoint = `${API_BASE_URL}/predict`
         const response = await fetch(endpoint, {
             method: 'POST',
@@ -21,7 +24,9 @@ export default function FlightPredictForm(props) {
     }
 
     return <form onSubmit={handleSubmit}>
-        <input type='text' name='query' placeholder="Your query..." />
+        <AirportDropdown name="startingAirport" />
+        <AirportDropdown name="destinationAirport" />
+        {/* <input type='text' name='query' placeholder="Your query..." className='dark: text-blue-900'/> */}
         <button type='submit'>Send</button>
     </form>
 }
