@@ -1,5 +1,5 @@
-import { Inter } from 'next/font/google'
 import './globals.css'
+import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -9,12 +9,12 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
-  const mainClassCSS = "flex min-h-screen flex-col items-center justify-between p-24"
+  const mainClassCSS ="flex min-h-screen flex-col items-center justify-between p-24"
   return (
     <html lang="en">
       <body className={inter.className}>
         <main className={mainClassCSS}>
-            {children}
+          {children}
         </main>
       </body>
     </html>

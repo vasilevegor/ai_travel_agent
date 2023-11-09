@@ -35,7 +35,9 @@ def predict_query(session,
         return response
     data = response.json()
     columns = data.get("column_names")
-    dataset = data.get("data")
+    dataset = data.get('data')
+    if dataset is None or data is None:
+        return []
     web_ready_data = [dict(zip(columns, row)) for row in dataset]
     return web_ready_data
 
