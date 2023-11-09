@@ -36,7 +36,8 @@ export default function FlightPredictForm(props) {
             setPredictData(prev=>({
                 ...prev,
                 loading: false,
-                predictions: data && data.prediction ? [...data.prediction] : []
+                ...data
+                // predictions: data && data.prediction ? [...data.prediction] : []
             }))
         }
 
@@ -98,8 +99,8 @@ export default function FlightPredictForm(props) {
         </div>
     </form>
 
-    {console.log(predictData, predictData.prediction)}
-    <PredictionResultTable results={predictData && predictData.predictions} />
+    {predictData && predictData.recommendation ? <div>{JSON.stringify(predictData.recommendation)}</div> : null }
+    <PredictionResultTable results={predictData && predictData.predictions} recommendation={predictData.recommendation} />   
         
     </div>
-}
+} 
