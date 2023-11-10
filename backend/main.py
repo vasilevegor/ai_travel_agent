@@ -60,9 +60,9 @@ def write_to_predict(prediction_req: db_schemas.PredictSchema, ai_session: Reque
     )
     if len(predictions) ==0:
         return {}
-    recomendation = predict.recomended_flight(ai_session,request_data , predictions)
+    recommendation = predict.recomended_flight(ai_session,request_data , predictions)
     print(predictions)
     return {
-        "recomendation": recomendation,
+        "recommendation": recommendation,
         "predictions": predictions,
     }
