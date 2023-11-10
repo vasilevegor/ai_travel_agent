@@ -1,6 +1,9 @@
+from backend.env import config
 import json
 
 MINDSDB_BASE_URL = "https://cloud.mindsdb.com/api"
+
+FLIGHT_PRICE_PREDICTOR_MODEL = config("FLIGHT_PRICE_PREDICTOR_MODEL", default='flight_price_predictor')
 
 
 def mindsdb_query(session, sql_query):
@@ -56,7 +59,8 @@ def predict_query(session,
                   **kwargs,
                  ):
     sql_query = f"""
-    SELECT CONCAT(CAST(random() * 1000000 as INT)) as requestID, m.flightDate as date, m.segmentsAirlineName as airline, m.isNonStop as nonStop, m.isBasicEconomy as basic, m.isRefundable as refundable, m.totalFare as price FROM mindsdb.flight_price_predictor AS m
+    SELECT CONCAT(CAST(random() * 1000000 as INT)) as requestID, m.flightDate as date, m.segmentsAirlineName as airline, m.isNonStop as nonStop, m.isBasicEconomy as basic, m.isRefundable as refundable, m.totalFare as price 
+    FROM mindsdb.{FLIGHT_PRICE_PREDICTOR_MODEL} AS m
     JOIN ai_travel_agent.flight_prices AS t
     WHERE t.flightDate >= "{flightDate}"
     AND t.startingAirport = "{startingAirport}"

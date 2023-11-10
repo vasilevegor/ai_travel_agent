@@ -98,8 +98,8 @@ export default function FlightPredictForm(props) {
         </div>
         </div>
     </form>
-
+    {predictData.loading ? <div>Thinking...</div> :
     <PredictionResultTable results={predictData && predictData.predictions} recommendation={predictData.recommendation} />   
-        
+    }   
     </div>
 } 
